@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Отправка архивов";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<div class="col-10">
+    <form asp-controller="File" asp-action="Upload" enctype="multipart/form-data" method="post">
+        <div class="mb-3">
+            <input type="file" name="files" accept=".xlsx" multiple class="form-control" />
+        </div>
+        <div class="mb-3">
+            <input type="submit" value="Загрузить файлы" class="btn btn-primary" />
+        </div>
+        @if (ViewBag.Error != true)
+        {
+            <span class="text-success">
+                @ViewBag.Message
+            </span>
+        }
+        else
+        {
+            <span class="text-warning">
+                @ViewBag.Message
+            </span>
+        }
+    </form>
+</div>

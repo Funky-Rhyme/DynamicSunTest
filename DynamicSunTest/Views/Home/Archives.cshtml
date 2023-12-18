@@ -1,0 +1,98 @@
+﻿@model ArchivesViewModel
+
+@{
+    ViewData["Title"] = "Архивы";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" type="button">
+        Сортировать по:
+    </button>
+    <ul class="dropdown-menu">
+        <li>
+            <a class="dropdown-item"
+               asp-controller="Home"
+               asp-action="Archives"
+               asp-route-sortOrder="@ViewData["Year"]">
+                Годам
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item"
+               asp-controller="Home"
+               asp-action="Archives"
+               asp-route-sortOrder="@ViewData["Month"]">
+                Месяцам
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="justify-content-xl-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Время (мск)</th>
+                <th>Температура воздуха</th>
+                <th>Отн.влажность воздуха</th>
+                <th>Точка росы</th>
+                <th>Атм. давление</th>
+                <th>Направление ветра</th>
+                <th>Скорость ветра</th>
+                <th>Облачность</th>
+                <th>Нижняя граница облачности</th>
+                <th>Горизонтальная видимость </th>
+                <th>Погодные явления</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.WeatherDTOs != null)
+            {
+                foreach (var item in Model.WeatherDTOs)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Time)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Temperature)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Humidity)</td>
+                        <td>@Html.DisplayFor(modelItem => item.DewPoint)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AtmoPressure)</td>
+                        <td>@Html.DisplayFor(modelItem => item.WindDirection)</td>
+                        <td>@Html.DisplayFor(modelItem => item.WindSpeed)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Cloudiness)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CloudinessLimit)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Visibility)</td>
+                        <td>@Html.DisplayFor(modelItem => item.WeatherPhenomena)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @if (Model.PageViewModel.HasPreviousPage)
+    {
+        <a asp-controller="Home"
+           asp-action="Archives"
+           asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+           class="btn btn-outline-dark">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Назад
+        </a>
+    }
+
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        <a asp-controller="Home"
+           asp-action="Archives"
+           asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+           class="btn btn-outline-dark">
+            Вперед
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    }
+
+</div>
